@@ -3,5 +3,5 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface MiInterfazRemota extends Remote {
-    StringBuilder miMetodo1(Integer[] array) throws RemoteException;
+    long miMetodo1(Integer[] array) throws RemoteException;
 }

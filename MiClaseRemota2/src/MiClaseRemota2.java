@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class MiClaseRemota2 extends Activatable implements MiInterfazRemota{
 
-    private StringBuilder stringBuilder = new StringBuilder();
+    private long result = 0;
 
     public MiClaseRemota2(ActivationID a, MarshalledObject m) throws RemoteException{
         super(a, 0);
@@ -44,28 +44,28 @@ public class MiClaseRemota2 extends Activatable implements MiInterfazRemota{
     }
 
     @Override
-    public StringBuilder miMetodo1(Integer[] array) throws RemoteException { // Aqui resolver la matriz
+    public long miMetodo1(Integer[] array) throws RemoteException { // Aqui resolver la matriz
         MergeSortForkJoin mergeSortForkJoin = new MergeSortForkJoin();
-        MergeSort mergeSort = new MergeSort();
+        //MergeSort mergeSort = new MergeSort();
 
-        stringBuilder.setLength(0);
-        long inicio = 0;
-        long fin = 0;
-        inicio = System.currentTimeMillis();
+        /*inicio = System.currentTimeMillis();
         mergeSort.mergeSort(array, 0, array.length - 1);
         fin = System.currentTimeMillis();
-        //System.out.println("Ordenamiento de manera secuencial:"+(fin-inicio) + " ms");
-        stringBuilder.append("Ordenamiento de manera secuencial:"+(fin-inicio) + " ms" + "\n");
+        System.out.println("Ordenamiento de manera secuencial:"+(fin-inicio) + " ms");
+        //stringBuilder.append("Ordenamiento de manera secuencial:"+(fin-inicio) + " ms" + "\n");*/
 
-        inicio = 0;
-        fin = 0;
+        long inicio = 0;
+        long fin = 0;
+
         inicio = System.currentTimeMillis();
         mergeSortForkJoin.sort(array);
         fin = System.currentTimeMillis();
-        //System.out.println("Ordenamiento de manera paralela:"+(fin-inicio) + " ms");
-        stringBuilder.append("Ordenamiento de manera paralela:"+(fin-inicio) + " ms");
+        result = fin - inicio;
+        System.out.println("Ordenamiento de manera paralela:"+(fin-inicio) + " ms");
 
-        return stringBuilder;
+        //stringBuilder.append("Ordenamiento de manera paralela:"+(fin-inicio) + " ms");
+
+        return result;
 
         /*MergeSortForkJoin mergeSortForkJoin = new MergeSortForkJoin();
         MergeSort mergeSort = new MergeSort();
