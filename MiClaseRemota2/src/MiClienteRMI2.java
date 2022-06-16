@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.rmi.Naming;
 
 public class MiClienteRMI2 extends javax.swing.JFrame{
@@ -146,29 +148,63 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
         // TODO add your handling code here:
     }
 
+    public static void messageBox() {
+        final JOptionPane optionPane = new JOptionPane("Espera un momento...", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
+
+        final JDialog dialog = new JDialog();
+        dialog.setTitle("Calculando");
+        dialog.setModal(true);
+
+        dialog.setContentPane(optionPane);
+
+        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        dialog.pack();
+
+        //mostrar pantalla para indicar que lo esta calculando
+        Timer timer = new Timer(5000, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                dialog.dispose();
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+        dialog.setVisible(true);
+    }
+
+    public static void messageBoxShowResult(StringBuilder stringBuilder) {
+        final JOptionPane optionPane = new JOptionPane(stringBuilder, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
+
+        final JDialog dialog = new JDialog();
+        dialog.setTitle("Resultados");
+        dialog.setModal(true);
+
+        dialog.setContentPane(optionPane);
+
+        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        dialog.pack();
+        dialog.setVisible(true);
+    }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MiClienteRMI2().setVisible(true);
-            }
-        });
+        long input = Long.parseLong(JOptionPane.showInputDialog("Enter Input:"));
 
         try {
+            messageBox();
             MiInterfazRemota mir = (MiInterfazRemota) Naming.lookup("//" + args[0] + "/PruebaRMI");
             // TODO aqui crear los arrays y pasarlos como parametros
-            Long[] array = new Long[Math.toIntExact(arrayTotalSize)];
-            Long[] arrayMergeSort = new Long[Math.toIntExact(arrayTotalSize)];
-            Long[] arrayServ = new Long[Math.toIntExact(arrayTotalSize / 2)];
-            Long[] arrayLocal = new Long[Math.toIntExact(arrayTotalSize / 2)];
+            Long[] array = new Long[Math.toIntExact(input)];
+            Long[] arrayMergeSort = new Long[Math.toIntExact(input)];
+            Long[] arrayServ = new Long[Math.toIntExact(input / 2)];
+            Long[] arrayLocal = new Long[Math.toIntExact(input / 2)];
 
             for (int x = 0; x < array.length; x++) {
-                array[x] = (long) (Math.random() * 5000000) - 5000000;
-                arrayMergeSort[x] = (long) (Math.random() * 5000000) - 5000000;
+                array[x] = (long) (Math.random() * 500000000) - 500000000;
+                arrayMergeSort[x] = (long) (Math.random() * 500000000) - 500000000;
                 //System.out.println(array[x]);
             }
 
@@ -181,7 +217,7 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
 
             //System.out.println("MatrizA, segunda mitad");
             int x = 0;
-            for (Long i = arrayTotalSize / 2; i < arrayTotalSize; i++){
+            for (Long i = input / 2; i < input; i++){
                 arrayLocal[x] = array[Math.toIntExact(i)];
                 x++;
                 //System.out.println(array[i]);
@@ -206,15 +242,30 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
 
             MergeSortForkJoin mergeSortForkJoin = new MergeSortForkJoin();
 
+            StringBuilder sb = new StringBuilder();
+
             servResult = mir.miMetodo1(arrayServ);
             localResult = mergeSortForkJoin.sortLong(arrayLocal);
             // resultado del array local
             System.out.println("Resultado primera mitad del array: " + localResult);
+            sb.append("Resultado primera mitad del array: " + localResult + "\n");
             // resultado del array enviado
             System.out.println("Resultado segunda mitad del array: " + servResult);
+            sb.append("Resultado segunda mitad del array: " + servResult + "\n");
             totalResult = servResult + localResult;
             System.out.println("Tiempo total, paralelo: " + totalResult);
+            sb.append("Tiempo total, paralelo: " + totalResult + "\n");
             System.out.println("Tiempo total, secuencial: " + mergeSortResult);
+            sb.append("Tiempo total, secuencial: " + mergeSortResult + "\n");
+
+            messageBoxShowResult(sb);
+
+            // mostrar resultados
+            /*java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    new MiClienteRMI2().setVisible(true);
+                }
+            });*/
         } catch (Exception e){
             System.out.println("Error, no encuentro: " + e.getMessage());
         }
