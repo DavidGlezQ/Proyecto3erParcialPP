@@ -1,11 +1,11 @@
 public class MergeSort {
-    public static void mergeSort(Integer[] a, int i, int i1) {
-        Integer[] tmpArray = new Integer[a.length];
+    public static void mergeSort(Long[] a, int i, int i1) {
+        Long[] tmpArray = new Long[a.length];
         mergeSort(a, tmpArray, 0, a.length - 1);
     }
 
     private static void mergeSort(
-            Integer a[], Integer tmpArray[], int left, int right) {
+            Long a[], Long tmpArray[], int left, int right) {
         if (left < right) {
             int center = (left + right) / 2;
             mergeSort(a, tmpArray, left, center);
@@ -14,7 +14,7 @@ public class MergeSort {
         }
     }
 
-    private static void merge(Integer a[], Integer tmpArray[], int leftPos, int rightPos, int rightEnd) {
+    private static void merge(Long a[], Long tmpArray[], int leftPos, int rightPos, int rightEnd) {
         int leftEnd = rightPos - 1;
         int tmpPos = leftPos;
         int numElements = rightEnd - leftPos + 1;

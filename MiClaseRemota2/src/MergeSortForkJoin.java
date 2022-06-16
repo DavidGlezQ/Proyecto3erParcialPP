@@ -1,18 +1,18 @@
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 public class MergeSortForkJoin {
-    public void sort(Integer[] a) {
-        Integer[] helper = new Integer[a.length];
+    public void sort(Long[] a) {
+        Long[] helper = new Long[a.length];
         ForkJoinPool forkJoinPool = new ForkJoinPool();
         forkJoinPool.invoke(new MergeSortTask(a, helper, 0, a.length - 1));
     }
 
-    public long sortLong(Integer[] a) {
+    public long sortLong(Long[] a) {
         long inicio = 0;
         long fin = 0;
         long result = 0;
         inicio = System.currentTimeMillis();
-        Integer[] helper = new Integer[a.length];
+        Long[] helper = new Long[a.length];
         ForkJoinPool forkJoinPool = new ForkJoinPool();
         forkJoinPool.invoke(new MergeSortTask(a, helper, 0, a.length - 1));
         fin = System.currentTimeMillis();
@@ -21,11 +21,11 @@ public class MergeSortForkJoin {
     }
 
     private class MergeSortTask extends RecursiveAction {
-        private final Integer[] a;
-        private final Integer[] helper;
+        private final Long[] a;
+        private final Long[] helper;
         private final int lo;
         private final int hi;
-        public MergeSortTask(Integer[] a, Integer[] helper, int lo, int hi) {
+        public MergeSortTask(Long[] a, Long[] helper, int lo, int hi) {
             this.a = a;
             this.helper = helper;
             this.lo = lo;
@@ -43,7 +43,7 @@ public class MergeSortForkJoin {
                 return;
             }
         }
-        private void merge(Integer[] a, Integer[] helper, int lo, int mid, int hi) {
+        private void merge(Long[] a, Long[] helper, int lo, int mid, int hi) {
             int leftEnd = mid - 1;
             int tmpPos = lo;
             int numElements = hi - lo + 1;

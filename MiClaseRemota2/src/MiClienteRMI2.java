@@ -2,7 +2,11 @@ import java.rmi.Naming;
 
 public class MiClienteRMI2 extends javax.swing.JFrame{
 
-    private static Integer arrayTotalSize = 0;
+    private static Long arrayTotalSize = Long.valueOf(10000000);
+    static long servResult;
+    static long localResult;
+    static long totalResult;
+    static long mergeSortResult;
 
     public MiClienteRMI2() {
         initComponents();
@@ -22,9 +26,7 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
         resTotalConcu = new javax.swing.JLabel();
         resArray1 = new javax.swing.JLabel();
         resArray2 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
         btnStart = new javax.swing.JButton();
-        tfSize = new javax.swing.JTextField();
 
         jLabel2.setText("David Alejandro Gonzalez Quezada");
 
@@ -52,18 +54,10 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
 
         resArray2.setText("0");
 
-        jLabel14.setText("Tamaño del array:");
-
         btnStart.setText("Iniciar");
         btnStart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnStartActionPerformed(evt);
-            }
-        });
-
-        tfSize.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfSizeActionPerformed(evt);
             }
         });
 
@@ -76,33 +70,29 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(layout.createSequentialGroup()
-                                                                .addComponent(jLabel14)
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                .addComponent(tfSize, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                         .addComponent(jLabel5)
                                                         .addComponent(jLabel4)
                                                         .addComponent(jLabel3)
                                                         .addGroup(layout.createSequentialGroup()
-                                                                .addComponent(jLabel8)
-                                                                .addGap(18, 18, 18)
-                                                                .addComponent(resTotalPara, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addGroup(layout.createSequentialGroup()
                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                         .addComponent(jLabel6)
                                                                         .addComponent(jLabel7))
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addGap(27, 27, 27)
                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                        .addGroup(layout.createSequentialGroup()
+                                                                        .addComponent(resArray2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                                                                 .addGap(2, 2, 2)
-                                                                                .addComponent(resArray1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                                        .addComponent(resArray2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                                                .addComponent(resArray1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addComponent(jLabel8)
+                                                                .addGap(52, 52, 52)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(resTotalConcu, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(resTotalPara, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addContainerGap(223, Short.MAX_VALUE))
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jLabel9)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(resTotalConcu, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 199, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addComponent(btnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(20, 20, 20))))
         );
@@ -115,11 +105,7 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel5)
-                                .addGap(60, 60, 60)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel14)
-                                        .addComponent(tfSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 166, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                                 .addComponent(jLabel6)
@@ -130,19 +116,22 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(resArray2)))
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel8)
-                                        .addComponent(resTotalPara))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(jLabel9)
-                                                        .addComponent(resTotalConcu))
-                                                .addGap(40, 40, 40))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addComponent(btnStart)
-                                                .addGap(22, 22, 22))))
+                                                .addComponent(jLabel8)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addComponent(jLabel9)
+                                                                .addGap(40, 40, 40))
+                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                                .addComponent(btnStart)
+                                                                .addGap(22, 22, 22))))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(resTotalPara)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(resTotalConcu)
+                                                .addGap(40, 40, 40))))
         );
 
         pack();
@@ -150,9 +139,7 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
 
     private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        String args[] = new String[0];
-        arrayTotalSize = Integer.valueOf(tfSize.getText());
-        runMain(args);
+        showResultUI();
     }
 
     private void tfSizeActionPerformed(java.awt.event.ActionEvent evt) {
@@ -163,28 +150,6 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MiClienteRMI2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MiClienteRMI2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MiClienteRMI2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MiClienteRMI2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -192,20 +157,18 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
                 new MiClienteRMI2().setVisible(true);
             }
         });
-    }
 
-    public void runMain(String[] args){
         try {
             MiInterfazRemota mir = (MiInterfazRemota) Naming.lookup("//" + args[0] + "/PruebaRMI");
             // TODO aqui crear los arrays y pasarlos como parametros
-            Integer[] array = new Integer[arrayTotalSize];
-            Integer[] arrayMergeSort = new Integer[arrayTotalSize];
-            Integer[] arrayServ = new Integer[arrayTotalSize / 2];
-            Integer[] arrayLocal = new Integer[arrayTotalSize /2 ];
+            Long[] array = new Long[Math.toIntExact(arrayTotalSize)];
+            Long[] arrayMergeSort = new Long[Math.toIntExact(arrayTotalSize)];
+            Long[] arrayServ = new Long[Math.toIntExact(arrayTotalSize / 2)];
+            Long[] arrayLocal = new Long[Math.toIntExact(arrayTotalSize / 2)];
 
             for (int x = 0; x < array.length; x++) {
-                array[x] = (int) (Math.random() * 50) - 50;
-                arrayMergeSort[x] = (int) (Math.random() * 50) - 50;
+                array[x] = (long) (Math.random() * 5000000) - 5000000;
+                arrayMergeSort[x] = (long) (Math.random() * 5000000) - 5000000;
                 //System.out.println(array[x]);
             }
 
@@ -218,8 +181,8 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
 
             //System.out.println("MatrizA, segunda mitad");
             int x = 0;
-            for (int i = arrayTotalSize / 2; i < arrayTotalSize; i++){
-                arrayLocal[x] = array[i];
+            for (Long i = arrayTotalSize / 2; i < arrayTotalSize; i++){
+                arrayLocal[x] = array[Math.toIntExact(i)];
                 x++;
                 //System.out.println(array[i]);
             }
@@ -237,24 +200,31 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
             inicio = System.currentTimeMillis();
             mergeSort.mergeSort(array, 0, array.length - 1);
             fin = System.currentTimeMillis();
-            long mergeSortResult = fin - inicio;
+            mergeSortResult = fin - inicio;
             //System.out.println("Ordenamiento de manera secuencial:"+(fin-inicio) + " ms");
             //stringBuilder.append("Ordenamiento de manera secuencial:"+(fin-inicio) + " ms" + "\n");
 
             MergeSortForkJoin mergeSortForkJoin = new MergeSortForkJoin();
 
-            long servResult = mir.miMetodo1(arrayServ);
-            long localResult = mergeSortForkJoin.sortLong(arrayLocal);
+            servResult = mir.miMetodo1(arrayServ);
+            localResult = mergeSortForkJoin.sortLong(arrayLocal);
             // resultado del array local
             System.out.println("Resultado primera mitad del array: " + localResult);
             // resultado del array enviado
             System.out.println("Resultado segunda mitad del array: " + servResult);
-            long totalResult = servResult + localResult;
+            totalResult = servResult + localResult;
             System.out.println("Tiempo total, paralelo: " + totalResult);
             System.out.println("Tiempo total, secuencial: " + mergeSortResult);
         } catch (Exception e){
             System.out.println("Error, no encuentro: " + e.getMessage());
         }
+    }
+
+    public void showResultUI(){
+        resArray1.setText(String.valueOf(localResult));
+        resArray2.setText(String.valueOf(servResult));
+        resTotalPara.setText(String.valueOf(totalResult));
+        resTotalConcu.setText(String.valueOf(mergeSortResult));
     }
 
     private javax.swing.JButton btnStart;
@@ -271,7 +241,7 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
     private javax.swing.JLabel resArray2;
     private javax.swing.JLabel resTotalConcu;
     private javax.swing.JLabel resTotalPara;
-    private javax.swing.JTextField tfSize;
+
     // End of variables declaration
 
 }

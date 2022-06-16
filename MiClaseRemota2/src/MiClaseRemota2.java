@@ -44,7 +44,7 @@ public class MiClaseRemota2 extends Activatable implements MiInterfazRemota{
     }
 
     @Override
-    public long miMetodo1(Integer[] array) throws RemoteException { // Aqui resolver la matriz
+    public long miMetodo1(Long[] array) throws RemoteException { // Aqui resolver la matriz
         MergeSortForkJoin mergeSortForkJoin = new MergeSortForkJoin();
         //MergeSort mergeSort = new MergeSort();
 
