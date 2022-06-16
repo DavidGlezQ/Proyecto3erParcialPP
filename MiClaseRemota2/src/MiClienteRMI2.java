@@ -52,10 +52,10 @@ public class MiClienteRMI2 {
             //System.out.println("Ordenamiento de manera secuencial:"+(fin-inicio) + " ms");
             //stringBuilder.append("Ordenamiento de manera secuencial:"+(fin-inicio) + " ms" + "\n");
 
-
+            MergeSortForkJoin mergeSortForkJoin = new MergeSortForkJoin();
 
             long servResult = mir.miMetodo1(arrayServ);
-            long localResult = mir.miMetodo1(arrayLocal);
+            long localResult = mergeSortForkJoin.sortLong(arrayLocal);
             // resultado del array local
             System.out.println("Resultado primera mitad del array: " + localResult);
             // resultado del array enviado

@@ -120,4 +120,9 @@ public class MiClaseRemota2 extends Activatable implements MiInterfazRemota{
         //System.out.println("Ordenamiento de manera paralela:"+(fin-inicio) + " ms");*/
         //System.out.println("Estoy en mi metodo 1");
     }
+
+    @Override
+    public void methodReturn() throws RemoteException {
+        System.out.println("Texto de retorno");
+    }
 }

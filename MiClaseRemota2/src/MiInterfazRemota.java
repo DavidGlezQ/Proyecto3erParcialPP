@@ -4,4 +4,5 @@ import java.rmi.RemoteException;
 
 public interface MiInterfazRemota extends Remote {
     long miMetodo1(Integer[] array) throws RemoteException;
+    void methodReturn() throws RemoteException;
 }
