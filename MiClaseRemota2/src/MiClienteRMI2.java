@@ -2,8 +2,8 @@ import java.rmi.Naming;
 
 public class MiClienteRMI2 {
 
-    private static final Integer arrayTotalSize = 10000000;
-    private static final Integer arrayServLocalTotalSize = 5000000;
+    private static final Integer arrayTotalSize = 100;
+    private static final Integer arrayServLocalTotalSize = 500;
 
     public static void main(String[] args) {
         try {
@@ -15,8 +15,8 @@ public class MiClienteRMI2 {
             Integer[] arrayLocal = new Integer[arrayServLocalTotalSize];
 
             for (int x = 0; x < array.length; x++) {
-                array[x] = (int) (Math.random() * 50000000) - 50000000;
-                arrayMergeSort[x] = (int) (Math.random() * 50000000) - 50000000;
+                array[x] = (int) (Math.random() * 50) - 50;
+                arrayMergeSort[x] = (int) (Math.random() * 50) - 50;
                 //System.out.println(array[x]);
             }
 
