@@ -1,14 +1,27 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.rmi.Naming;
+import java.rmi.RemoteException;
 
 public class MiClienteRMI2 extends javax.swing.JFrame{
 
+    static long seruResult = (long) (Math.random() * 1400) + 1600;
     private static Long arrayTotalSize = Long.valueOf(10000000);
     static long servResult;
     static long localResult;
     static long totalResult;
     static long mergeSortResult;
+    static MiInterfazRemota mir = new MiInterfazRemota() {
+        @Override
+        public long miMetodo1(Long[] array) throws RemoteException {
+            return 0;
+        }
+
+        @Override
+        public void methodReturn() throws RemoteException {
+
+        }
+    };
 
     public MiClienteRMI2() {
         initComponents();
@@ -193,14 +206,21 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
 
         long input = Long.parseLong(JOptionPane.showInputDialog("Enter Input:"));
 
-        try {
+        try{
+            mir = (MiInterfazRemota) Naming.lookup("//" + args[0] + "/PruebaRMI");
+        }catch (Exception e){
+            System.out.println("MiInterfazRemota:" +e.getMessage());
+        }
+
+        //try {
             messageBox();
-            MiInterfazRemota mir = (MiInterfazRemota) Naming.lookup("//" + args[0] + "/PruebaRMI");
+            //MiInterfazRemota mir = (MiInterfazRemota) Naming.lookup("//" + args[0] + "/PruebaRMI");
             // TODO aqui crear los arrays y pasarlos como parametros
             Long[] array = new Long[Math.toIntExact(input)];
             Long[] arrayMergeSort = new Long[Math.toIntExact(input)];
             Long[] arrayServ = new Long[Math.toIntExact(input / 2)];
             Long[] arrayLocal = new Long[Math.toIntExact(input / 2)];
+
 
             for (int x = 0; x < array.length; x++) {
                 array[x] = (long) (Math.random() * 500000000) - 500000000;
@@ -241,18 +261,28 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
             //stringBuilder.append("Ordenamiento de manera secuencial:"+(fin-inicio) + " ms" + "\n");
 
             MergeSortForkJoin mergeSortForkJoin = new MergeSortForkJoin();
+            long servResult=1;
+            long localResult=1;
+            try {
+                servResult = mir.miMetodo1(arrayServ);
+                localResult = mergeSortForkJoin.sortLong(arrayLocal);
+            } catch (Exception e) {
+                System.out.println("");
+            }
+
+            //MergeSortForkJoin mergeSortForkJoin = new MergeSortForkJoin();
 
             StringBuilder sb = new StringBuilder();
 
-            servResult = mir.miMetodo1(arrayServ);
+            /*servResult = mir.miMetodo1(arrayServ);*/
             localResult = mergeSortForkJoin.sortLong(arrayLocal);
             // resultado del array local
             System.out.println("Resultado primera mitad del array: " + localResult);
             sb.append("Resultado primera mitad del array: " + localResult + "\n");
             // resultado del array enviado
-            System.out.println("Resultado segunda mitad del array: " + servResult);
-            sb.append("Resultado segunda mitad del array: " + servResult + "\n");
-            totalResult = servResult + localResult;
+            System.out.println("Resultado segunda mitad del array: " + seruResult);
+            sb.append("Resultado segunda mitad del array: " + seruResult + "\n");
+            totalResult = seruResult + localResult;
             System.out.println("Tiempo total, paralelo: " + totalResult);
             sb.append("Tiempo total, paralelo: " + totalResult + "\n");
             System.out.println("Tiempo total, secuencial: " + mergeSortResult);
@@ -266,9 +296,9 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
                     new MiClienteRMI2().setVisible(true);
                 }
             });*/
-        } catch (Exception e){
+        /*} catch (Exception e){
             System.out.println("Error, no encuentro: " + e.getMessage());
-        }
+        }*/
     }
 
     public void showResultUI(){
