@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 public class MiClienteRMI2 extends javax.swing.JFrame{
 
@@ -217,19 +218,21 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
             //MiInterfazRemota mir = (MiInterfazRemota) Naming.lookup("//" + args[0] + "/PruebaRMI");
             // TODO aqui crear los arrays y pasarlos como parametros
             Long[] array = new Long[Math.toIntExact(input)];
+            ArrayList<Integer> arrayList = new ArrayList<Integer>((int) input);
             Long[] arrayMergeSort = new Long[Math.toIntExact(input)];
             Long[] arrayServ = new Long[Math.toIntExact(input / 2)];
             Long[] arrayLocal = new Long[Math.toIntExact(input / 2)];
 
 
             for (int x = 0; x < array.length; x++) {
-                array[x] = (long) (Math.random() * 500000000) - 500000000;
-                arrayMergeSort[x] = (long) (Math.random() * 500000000) - 500000000;
+                arrayList.add((int)(Math.random() * 50000000) + 50000000);
+                //array[x] = (long) (Math.random() * 500000000) - 500000000;
+                //arrayMergeSort[x] = (long) (Math.random() * 500000000) - 500000000;
                 //System.out.println(array[x]);
             }
 
             //System.out.println("MatrizA, primera mitad");
-            for (int i = 0; i < array.length / 2; i++){
+            /*for (int i = 0; i < array.length / 2; i++){
                 //System.out.println(array[i]);
                 arrayServ[i] = array[i];
                 //System.out.println(arrayServ[i]);
@@ -241,28 +244,22 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
                 arrayLocal[x] = array[Math.toIntExact(i)];
                 x++;
                 //System.out.println(array[i]);
-            }
+            }*/
 
-            //System.out.println("MatrizA");
-            for (int i = 0; i < arrayLocal.length; i++){
-                //array[i] = array[i];
-                //System.out.println(arrayLocal[i]);
-            }
-
-            MergeSort mergeSort = new MergeSort();
+            SecQuickSort secQuickSort = new SecQuickSort();
 
             long inicio = 0;
             long fin = 0;
             inicio = System.currentTimeMillis();
-            mergeSort.mergeSort(array, 0, array.length - 1);
+            //mergeSort.mergeSort(array, 0, array.length - 1);
+            ArrayList resultado = new ArrayList(secQuickSort.sequentialSort(arrayList));
+            System.out.println("res secQuick" +  resultado);
             fin = System.currentTimeMillis();
             mergeSortResult = fin - inicio;
-            //System.out.println("Ordenamiento de manera secuencial:"+(fin-inicio) + " ms");
-            //stringBuilder.append("Ordenamiento de manera secuencial:"+(fin-inicio) + " ms" + "\n");
 
             MergeSortForkJoin mergeSortForkJoin = new MergeSortForkJoin();
-            long servResult=1;
-            long localResult=1;
+            long servResult = 1;
+            long localResult = 1;
             try {
                 servResult = mir.miMetodo1(arrayServ);
                 localResult = mergeSortForkJoin.sortLong(arrayLocal);
@@ -275,16 +272,16 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
             StringBuilder sb = new StringBuilder();
 
             /*servResult = mir.miMetodo1(arrayServ);*/
-            localResult = mergeSortForkJoin.sortLong(arrayLocal);
+            /*localResult = mergeSortForkJoin.sortLong(arrayLocal);
             // resultado del array local
             System.out.println("Resultado primera mitad del array: " + localResult);
             sb.append("Resultado primera mitad del array: " + localResult + "\n");
             // resultado del array enviado
             System.out.println("Resultado segunda mitad del array: " + seruResult);
             sb.append("Resultado segunda mitad del array: " + seruResult + "\n");
-            totalResult = seruResult + localResult;
+            totalResult = servResult + localResult;
             System.out.println("Tiempo total, paralelo: " + totalResult);
-            sb.append("Tiempo total, paralelo: " + totalResult + "\n");
+            sb.append("Tiempo total, paralelo: " + totalResult + "\n");*/
             System.out.println("Tiempo total, secuencial: " + mergeSortResult);
             sb.append("Tiempo total, secuencial: " + mergeSortResult + "\n");
 
@@ -295,8 +292,8 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
                 public void run() {
                     new MiClienteRMI2().setVisible(true);
                 }
-            });*/
-        /*} catch (Exception e){
+            });
+        } catch (Exception e){
             System.out.println("Error, no encuentro: " + e.getMessage());
         }*/
     }
