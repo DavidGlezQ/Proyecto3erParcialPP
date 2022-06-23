@@ -8,9 +8,16 @@ import java.util.concurrent.ForkJoinPool;
  * @author giselcarpinteiro
  */
 public class ConQuickSort {
-    public void concurrentQuickSort(ArrayList lista){
+    public int concurrentQuickSort(ArrayList lista){
+        int inicio = 0;
+        int fin = 0;
+        int result = 0;
+        inicio = (int) System.currentTimeMillis();
         ForkJoinPool fJP = new ForkJoinPool();
         fJP.invoke(new QuickSortTask(lista));
+        fin = (int) System.currentTimeMillis();
+        result = fin - inicio;
+        return result;
     }
     
     private class QuickSortTask extends RecursiveAction{

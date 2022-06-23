@@ -14,7 +14,7 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
     static long mergeSortResult;
     static MiInterfazRemota mir = new MiInterfazRemota() {
         @Override
-        public long miMetodo1(Long[] array) throws RemoteException {
+        public long miMetodo1(ArrayList array) throws RemoteException {
             return 0;
         }
 
@@ -218,10 +218,12 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
             //MiInterfazRemota mir = (MiInterfazRemota) Naming.lookup("//" + args[0] + "/PruebaRMI");
             // TODO aqui crear los arrays y pasarlos como parametros
             Long[] array = new Long[Math.toIntExact(input)];
+            //Long[] arrayMergeSort = new Long[Math.toIntExact(input)];
             ArrayList<Integer> arrayList = new ArrayList<Integer>((int) input);
-            Long[] arrayMergeSort = new Long[Math.toIntExact(input)];
             Long[] arrayServ = new Long[Math.toIntExact(input / 2)];
             Long[] arrayLocal = new Long[Math.toIntExact(input / 2)];
+            ArrayList arrayListLocal = new ArrayList<Integer>((int) input);
+            ArrayList arrayListServ = new ArrayList<Integer>((int) input);
 
 
             for (int x = 0; x < array.length; x++) {
@@ -232,19 +234,21 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
             }
 
             //System.out.println("MatrizA, primera mitad");
-            /*for (int i = 0; i < array.length / 2; i++){
+            for (int i = 0; i < array.length / 2; i++){
+                arrayListServ.add(arrayList.get(i));
                 //System.out.println(array[i]);
-                arrayServ[i] = array[i];
+                //arrayServ[i] = array[i];
                 //System.out.println(arrayServ[i]);
             }
 
             //System.out.println("MatrizA, segunda mitad");
             int x = 0;
-            for (Long i = input / 2; i < input; i++){
-                arrayLocal[x] = array[Math.toIntExact(i)];
+            for (int i = (int) input / 2; i < input; i++){
+                arrayListLocal.add(arrayList.get(i));
+                //arrayLocal[x] = array[Math.toIntExact(i)];
                 x++;
                 //System.out.println(array[i]);
-            }*/
+            }
 
             SecQuickSort secQuickSort = new SecQuickSort();
 
@@ -258,11 +262,14 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
             mergeSortResult = fin - inicio;
 
             MergeSortForkJoin mergeSortForkJoin = new MergeSortForkJoin();
+            ConQuickSort conQuickSort = new ConQuickSort();
             long servResult = 1;
             long localResult = 1;
+            int localResult1 = 1;
             try {
-                servResult = mir.miMetodo1(arrayServ);
-                localResult = mergeSortForkJoin.sortLong(arrayLocal);
+                servResult = mir.miMetodo1(arrayListServ);
+                //localResult = mergeSortForkJoin.sortLong(arrayLocal);
+                localResult1 = conQuickSort.concurrentQuickSort(arrayListLocal);
             } catch (Exception e) {
                 System.out.println("");
             }
@@ -271,17 +278,17 @@ public class MiClienteRMI2 extends javax.swing.JFrame{
 
             StringBuilder sb = new StringBuilder();
 
-            /*servResult = mir.miMetodo1(arrayServ);*/
-            /*localResult = mergeSortForkJoin.sortLong(arrayLocal);
+            //servResult = mir.miMetodo1(arrayServ);
+            //localResult = mergeSortForkJoin.sortLong(arrayLocal);
             // resultado del array local
-            System.out.println("Resultado primera mitad del array: " + localResult);
-            sb.append("Resultado primera mitad del array: " + localResult + "\n");
+            System.out.println("Resultado primera mitad del array: " + localResult1);
+            sb.append("Resultado primera mitad del array: " + localResult1 + "\n");
             // resultado del array enviado
-            System.out.println("Resultado segunda mitad del array: " + seruResult);
-            sb.append("Resultado segunda mitad del array: " + seruResult + "\n");
-            totalResult = servResult + localResult;
+            System.out.println("Resultado segunda mitad del array: " + servResult);
+            sb.append("Resultado segunda mitad del array: " + servResult + "\n");
+            totalResult = servResult + localResult1;
             System.out.println("Tiempo total, paralelo: " + totalResult);
-            sb.append("Tiempo total, paralelo: " + totalResult + "\n");*/
+            sb.append("Tiempo total, paralelo: " + totalResult + "\n");
             System.out.println("Tiempo total, secuencial: " + mergeSortResult);
             sb.append("Tiempo total, secuencial: " + mergeSortResult + "\n");
 
