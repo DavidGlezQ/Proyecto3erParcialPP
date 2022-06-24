@@ -322,10 +322,6 @@ public class QuickSort_GUI extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-
-        
-        
-        
         SecQuickSort procesoSecuencial = new SecQuickSort();
         ConQuickSort procesoConcurrente = new ConQuickSort();
         

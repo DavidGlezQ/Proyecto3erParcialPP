@@ -48,15 +48,6 @@ public class MiClaseRemota2 extends Activatable implements MiInterfazRemota{
     @Override
     public long miMetodo1(ArrayList array) throws RemoteException {
         ConQuickSort conQuickSort = new ConQuickSort();
-        //MergeSortForkJoin mergeSortForkJoin = new MergeSortForkJoin();
-        //MergeSort mergeSort = new MergeSort();
-
-        /*inicio = System.currentTimeMillis();
-        mergeSort.mergeSort(array, 0, array.length - 1);
-        fin = System.currentTimeMillis();
-        System.out.println("Ordenamiento de manera secuencial:"+(fin-inicio) + " ms");
-        //stringBuilder.append("Ordenamiento de manera secuencial:"+(fin-inicio) + " ms" + "\n");*/
-
         long inicio = 0;
         long fin = 0;
 
